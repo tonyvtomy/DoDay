@@ -2,6 +2,9 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    // Add the Crashlytics Gradle plugin
+    id 'com.google.firebase.crashlytics'
+    id 'com.google.gms.google-services'//this one
 }
 
 android {
@@ -12,22 +15,19 @@ android {
         applicationId "com.techwonders.doday"
         minSdk 21
         targetSdk 33
-        versionCode 2
-        versionName "0.0.1"
+        versionCode 3
+        versionName "0.0.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         debug {
-            //buildConfigField "String", "BASE_URL", '"https://www.demo.com"'
-
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             manifestPlaceholders = [crashlyticsEnabled: false]
         }
         release {
-
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             manifestPlaceholders = [crashlyticsEnabled: true]
@@ -68,9 +68,6 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$rootProject.appCompatVersion"
     implementation "androidx.activity:activity-ktx:$rootProject.activityVersion"
 
-    // Dependencies for working with Architecture components
-    // You'll probably have to update the version numbers in build.gradle (Project)
-
     // Room components
     implementation "androidx.room:room-ktx:$rootProject.roomVersion"
     kapt "androidx.room:room-compiler:$rootProject.roomVersion"
@@ -93,6 +90,11 @@ dependencies {
     // In app update
     implementation 'com.google.android.play:app-update:2.0.1'
     implementation 'com.google.android.play:app-update-ktx:2.0.1'
+
+    // Firebase
+    implementation platform('com.google.firebase:firebase-bom:31.1.0')
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
 
 
     // Testing

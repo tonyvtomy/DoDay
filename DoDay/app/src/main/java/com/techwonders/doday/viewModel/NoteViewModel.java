@@ -5,6 +5,8 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 import com.techwonders.doday.model.Category;
 import com.techwonders.doday.model.Note;
@@ -18,12 +20,16 @@ public class NoteViewModel extends AndroidViewModel {
     private LiveData<List<Note>> noteList;
     private LiveData<List<Category>> categoryList;
 
+    private final MutableLiveData<Integer> category_id_selected = new MutableLiveData();
+
+
     public NoteViewModel(@NonNull Application application) {
         super(application);
         noteRepo = new NoteRepo(application);
         noteList = noteRepo.getAllNotes();
         categoryList = noteRepo.getAllCategory();
     }
+
 
     // Notes
     public void insert(Note note) {
@@ -42,8 +48,12 @@ public class NoteViewModel extends AndroidViewModel {
         noteRepo.deleteAllNotes();
     }
 
-    public LiveData<List<Note>> getNotesByCategory(int cat_id) {
-        return noteRepo.getNotesByCategory(cat_id);
+    public void setCategoryID(int categoryID) {
+        category_id_selected.setValue(categoryID);
+    }
+
+    public LiveData<List<Note>> getNotesByCategory() {
+        return Transformations.switchMap(category_id_selected, (cat_id) -> noteRepo.getNotesByCategory(cat_id));
     }
 
     public LiveData<List<Note>> getAllNotes() {

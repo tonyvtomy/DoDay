@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+import com.techwonders.doday.R;
 import com.techwonders.doday.databinding.ActivityMainBinding;
 import com.techwonders.doday.databinding.AlertCategoryAddBinding;
 import com.techwonders.doday.listeners.OnCategoryClickListener;
@@ -60,17 +62,18 @@ public class MainActivity extends BaseActivity implements OnNoteClickListener {
             startActivityForResult(newDataIntent, 1);
         });
 
+        addAdapters();
+        addObservers();
+        setTouchListeners();
+    }
 
+    private void addAdapters() {
         categoryAdapter = new CategoryAdapter(this, new OnCategoryClickListener() {
             @Override
             public void onCategoryClick(int pos) {
                 Category category = categoryAdapter.getCategory(pos);
-                noteViewModel.getNotesByCategory(category.getId()).observe(MainActivity.this, notes -> {
-                    Log.d("NOTES", "onCategoryClick observed");
-                    notesAdapter.updateNotesList(notes);
-                    noteList = notes;
-                });
                 categoryAdapter.updateSelection(pos);
+                noteViewModel.setCategoryID(category.getId());
             }
 
             @Override
@@ -80,25 +83,30 @@ public class MainActivity extends BaseActivity implements OnNoteClickListener {
             }
         });
         binding.rvCategory.setAdapter(categoryAdapter);
-        noteViewModel.getAllCategory().observe(this, categories -> {
-            if (categories != null && categories.size() > 0) {
-                noteViewModel.getNotesByCategory(categories.get(0).getId()).observe(MainActivity.this, notes -> {
-                    Log.d("NOTES", "getAllCategory observed");
-                    notesAdapter.updateNotesList(notes);
-                    noteList = notes;
-                });
-            }
-            categoryAdapter.updateCategoryList(categories);
-        });
 
         notesAdapter = new NotesAdapter(this);
         binding.rvNotes.setLayoutManager(new LinearLayoutManager(this));
         binding.rvNotes.setAdapter(notesAdapter);
-        /*noteViewModel.getAllNotes().observe(MainActivity.this, notes -> {
+    }
+
+    private void addObservers() {
+        noteViewModel.getAllCategory().observe(this, categories -> {
+            Log.d("NOTES", "getAllCategory observed");
+            if (categories != null && categories.size() > 0) {
+                Log.d("NOTES", "getAllCategory first time id set");
+                noteViewModel.setCategoryID(categories.get(0).getId());
+            }
+            categoryAdapter.updateCategoryList(categories);
+        });
+
+        noteViewModel.getNotesByCategory().observe(MainActivity.this, notes -> {
+            Log.d("NOTES", "sortedNoteList observed");
             notesAdapter.updateNotesList(notes);
             noteList = notes;
-        });*/
+        });
+    }
 
+    private void setTouchListeners() {
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.UP) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -123,8 +131,9 @@ public class MainActivity extends BaseActivity implements OnNoteClickListener {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                noteViewModel.delete(notesAdapter.getNote(viewHolder.getAdapterPosition()));
-                Toast.makeText(MainActivity.this, "Note Deleted", Toast.LENGTH_SHORT).show();
+                deleteNote(notesAdapter.getNote(viewHolder.getAdapterPosition()));
+//                noteViewModel.delete(notesAdapter.getNote(viewHolder.getAdapterPosition()));
+//                Toast.makeText(MainActivity.this, "Note Deleted", Toast.LENGTH_SHORT).show();
             }
         }).attachToRecyclerView(binding.rvNotes);
     }
@@ -160,24 +169,12 @@ public class MainActivity extends BaseActivity implements OnNoteClickListener {
         dialog.show();
     }
 
-
-    private void doFilter(int cat_id) {
-        Log.d("NOTES", "cat_id: " + cat_id);
-        Log.d("NOTES", "noteList: " + noteList.size());
-
-        List<Note> filteredList = new ArrayList<>();
-        if (cat_id > 0) {
-            for (Note note : noteList) {
-                if (note.getCategory_id() == cat_id) {
-                    filteredList.add(note);
-                }
-            }
-        } else {
-            filteredList = noteList;
-        }
-        Log.d("NOTES", "filteredList: " + filteredList.size());
-
-        notesAdapter.updateNotesList(filteredList);
+    public void deleteNote(final Note note) {
+        //remove the todo from the view
+        noteViewModel.delete(note);
+        //add the snackBar and the undo button
+        Snackbar.make(findViewById(R.id.viewNoteContainer), "Note Deleted.", Snackbar.LENGTH_LONG)
+                .setAction("UNDO", view -> noteViewModel.insert(note)).show();
     }
 
     @Override

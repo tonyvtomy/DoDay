@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">DoDay</string>
     <string name="content_desc">content desc</string>
+    <string name="categories">Categories</string>
+    <string name="tasks">Tasks</string>
+    <string name="enter_the_note">Enter the note</string>
+    <string name="save">Save</string>
+    <string name="add_category">Add Category</string>
+    <string name="name">Name</string>
+    <string name="title">Title</string>
 </resources>

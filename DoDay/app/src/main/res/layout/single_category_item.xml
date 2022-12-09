@@ -28,7 +28,7 @@
             android:minWidth="100dp"
             android:paddingHorizontal="6dp"
             android:paddingVertical="12dp"
-            android:text="Title"
+            android:text="@string/title"
             android:textColor="@color/textColor"
             android:textSize="16sp"
             android:textStyle="bold"

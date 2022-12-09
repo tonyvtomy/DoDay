@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "9081168919",
+    "project_id": "doday-2k22",
+    "storage_bucket": "doday-2k22.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:9081168919:android:7745d74b65a4747a80a852",
+        "android_client_info": {
+          "package_name": "com.techwonders.doday"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "9081168919-8kg49ssenv9j7218lml5m3la2essb3o7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.techwonders.doday",
+            "certificate_hash": "3f59b4f3fb4cddec158e15222956b16684b7c829"
+          }
+        },
+        {
+          "client_id": "9081168919-f7uqscg7rhmqh32k388leb4ik7shgoan.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0dPnQK9w_R-ibPnFZ9OC-2I94zAgBr5c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "9081168919-f7uqscg7rhmqh32k388leb4ik7shgoan.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
