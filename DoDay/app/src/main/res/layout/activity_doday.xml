@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/viewNoteContainer"
     android:layout_width="match_parent"
+    android:background="@color/colorLightWhite"
     android:layout_height="match_parent"
     android:padding="12dp"
-    tools:context=".view.activity.MainActivity">
+    tools:context=".view.activity.DoDayActivity">
 
     <TextView
         android:id="@+id/textView"
@@ -82,7 +83,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTasksH"
-        tools:listitem="@layout/single_list_item" />
+        tools:listitem="@layout/single_doday_item" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAdd"

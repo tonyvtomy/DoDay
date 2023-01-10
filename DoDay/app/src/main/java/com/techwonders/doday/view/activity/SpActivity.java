@@ -26,7 +26,7 @@ public class SpActivity extends BaseActivity {
 
     private void init() {
         new Handler().postDelayed(() -> {
-            startActivity(new Intent(SpActivity.this, MainActivity.class));
+            startActivity(new Intent(SpActivity.this, DashboardActivity.class));
             finish();
         }, 50);
     }

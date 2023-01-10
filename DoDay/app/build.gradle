@@ -16,13 +16,14 @@ android {
         minSdk 21
         targetSdk 33
         versionCode 3
-        versionName "0.0.2"
-
+        versionName "0.0.3"   //major.minor.patch
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         debug {
+            applicationIdSuffix ".dev"
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             manifestPlaceholders = [crashlyticsEnabled: false]
@@ -53,6 +54,7 @@ android {
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
             def versionName = variant.versionName //e.g 1.0.0
+
             if (variant.buildType.name == "release") {
                 outputFileName = "DoDay v${versionName}.apk"
             } else {
@@ -61,6 +63,7 @@ android {
 
         }
     }
+
 }
 
 dependencies {

@@ -14,6 +14,41 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
+            android:name=".view.activity.TransactionActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".view.activity.SettingsActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".view.activity.FoodExpenseEntryActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".view.activity.FoodExpenseActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".view.activity.DashboardActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".view.activity.NoteEntryActivity"
             android:exported="false">
             <meta-data
@@ -21,7 +56,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.activity.MainActivity"
+            android:name=".view.activity.DoDayActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

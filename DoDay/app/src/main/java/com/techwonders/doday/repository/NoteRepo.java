@@ -4,8 +4,8 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import com.techwonders.doday.db.DoDayDatabase;
 import com.techwonders.doday.db.NoteDao;
-import com.techwonders.doday.db.NoteDatabase;
 import com.techwonders.doday.model.Category;
 import com.techwonders.doday.model.Note;
 
@@ -19,31 +19,31 @@ public class NoteRepo {
 
 
     public NoteRepo(Application application) {
-        NoteDatabase noteDatabase = NoteDatabase.getInstance(application);
-        noteDao = noteDatabase.noteDao();
+        DoDayDatabase doDayDatabase = DoDayDatabase.getInstance(application);
+        noteDao = doDayDatabase.noteDao();
         noteList = noteDao.getAllNotes();
         categoryList = noteDao.getAllCategory();
     }
 
     /// Note
     public void insertData(Note note) {
-        NoteDatabase.databaseWriteExecutor.execute(() -> noteDao.insert(note));
+        DoDayDatabase.databaseWriteExecutor.execute(() -> noteDao.insert(note));
     }
 
     public void updateData(Note note) {
-        NoteDatabase.databaseWriteExecutor.execute(() -> noteDao.update(note));
+        DoDayDatabase.databaseWriteExecutor.execute(() -> noteDao.update(note));
     }
 
     public void deleteData(Note note) {
-        NoteDatabase.databaseWriteExecutor.execute(() -> noteDao.delete(note));
+        DoDayDatabase.databaseWriteExecutor.execute(() -> noteDao.delete(note));
     }
 
     public void deleteAllData(int cat_id) {
-        NoteDatabase.databaseWriteExecutor.execute(() -> noteDao.deleteNotesByCategory(cat_id));
+        DoDayDatabase.databaseWriteExecutor.execute(() -> noteDao.deleteNotesByCategory(cat_id));
     }
 
     public void deleteAllNotes() {
-        NoteDatabase.databaseWriteExecutor.execute(noteDao::deleteAllNotes);
+        DoDayDatabase.databaseWriteExecutor.execute(noteDao::deleteAllNotes);
     }
 
     public LiveData<List<Note>> getAllNotes() {
@@ -57,20 +57,20 @@ public class NoteRepo {
 
     // Category
     public void insertData(Category category) {
-        NoteDatabase.databaseWriteExecutor.execute(() -> noteDao.insert(category));
+        DoDayDatabase.databaseWriteExecutor.execute(() -> noteDao.insert(category));
     }
 
     public void updateData(Category category) {
-        NoteDatabase.databaseWriteExecutor.execute(() -> noteDao.update(category));
+        DoDayDatabase.databaseWriteExecutor.execute(() -> noteDao.update(category));
     }
 
     public void deleteData(Category category) {
-        NoteDatabase.databaseWriteExecutor.execute(() -> noteDao.delete(category));
+        DoDayDatabase.databaseWriteExecutor.execute(() -> noteDao.delete(category));
     }
 
     public void updateCategoryById(int id) {
         Category category = noteDao.getCategory(id);
-        NoteDatabase.databaseWriteExecutor.execute(() -> noteDao.update(category));
+        DoDayDatabase.databaseWriteExecutor.execute(() -> noteDao.update(category));
     }
 
     public LiveData<List<Category>> getAllCategory() {

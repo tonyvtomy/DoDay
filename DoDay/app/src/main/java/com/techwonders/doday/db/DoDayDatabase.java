@@ -10,24 +10,30 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.techwonders.doday.model.Category;
 import com.techwonders.doday.model.Note;
+import com.techwonders.doday.model.FoodExpense;
+import com.techwonders.doday.model.Transaction;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Note.class, Category.class}, version = 1)
-public abstract class NoteDatabase extends RoomDatabase {
+@Database(entities = {Note.class, Category.class, FoodExpense.class, Transaction.class}, version = 2)
+public abstract class DoDayDatabase extends RoomDatabase {
 
-    private static NoteDatabase instance;
-    private static String DB_NAME = "note_database";
+    private static DoDayDatabase instance;
+    private static String DB_NAME = "doDay_database";
 
     public abstract NoteDao noteDao();
+
+    public abstract FoodExpenseDao foodExpenseDao();
+
+    public abstract TransactionDao transactionDao();
 
     private static final int NUMBER_OF_THREADS = 4;
     public static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    public static synchronized NoteDatabase getInstance(Context context) {
+    public static synchronized DoDayDatabase getInstance(Context context) {
         if (instance == null) {
-            instance = Room.databaseBuilder(context.getApplicationContext(), NoteDatabase.class, DB_NAME)
+            instance = Room.databaseBuilder(context.getApplicationContext(), DoDayDatabase.class, DB_NAME)
                     .fallbackToDestructiveMigration()
                     .addCallback(dbCallback)
                     .build();

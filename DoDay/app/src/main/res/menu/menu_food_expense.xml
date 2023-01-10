@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/overflowMenu"
+        android:icon="@drawable/ic_more"
+        android:title="@string/more_options"
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/newExpense"
+                android:title="@string/new_expense"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/addToTransaction"
+                android:title="@string/add_to_transaction"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/transactions"
+                android:title="@string/transactions"
+                app:showAsAction="never" />
+        </menu>
+    </item>
+</menu>

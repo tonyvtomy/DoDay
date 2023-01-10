@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.techwonders.doday.R;
-import com.techwonders.doday.databinding.SingleListItemBinding;
+import com.techwonders.doday.databinding.SingleDodayItemBinding;
 import com.techwonders.doday.listeners.OnNoteClickListener;
 import com.techwonders.doday.model.Note;
 
@@ -32,7 +32,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     @NonNull
     @Override
     public NoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_doday_item, parent, false);
         return new NoteViewHolder(view);
     }
 
@@ -87,11 +87,11 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     }
 
     public static class NoteViewHolder extends RecyclerView.ViewHolder {
-        SingleListItemBinding binding;
+        SingleDodayItemBinding binding;
 
         public NoteViewHolder(@NonNull View itemView) {
             super(itemView);
-            binding = SingleListItemBinding.bind(itemView);
+            binding = SingleDodayItemBinding.bind(itemView);
         }
     }
 

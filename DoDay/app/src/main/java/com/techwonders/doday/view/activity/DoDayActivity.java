@@ -1,5 +1,7 @@
 package com.techwonders.doday.view.activity;
 
+import static com.techwonders.doday.utility.ConstantsKt.REQUEST_CODE_NOTE_ENTRY;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.techwonders.doday.R;
-import com.techwonders.doday.databinding.ActivityMainBinding;
+import com.techwonders.doday.databinding.ActivityDodayBinding;
 import com.techwonders.doday.databinding.AlertCategoryAddBinding;
 import com.techwonders.doday.listeners.OnCategoryClickListener;
 import com.techwonders.doday.listeners.OnNoteClickListener;
@@ -27,30 +29,23 @@ import com.techwonders.doday.view.adapter.CategoryAdapter;
 import com.techwonders.doday.view.adapter.NotesAdapter;
 import com.techwonders.doday.viewModel.NoteViewModel;
 
-import java.util.ArrayList;
-import java.util.List;
+public class DoDayActivity extends BaseActivity implements OnNoteClickListener {
 
-public class MainActivity extends BaseActivity implements OnNoteClickListener {
-
-    private ActivityMainBinding binding;
+    private ActivityDodayBinding binding;
     private NoteViewModel noteViewModel;
     private NotesAdapter notesAdapter;
     private CategoryAdapter categoryAdapter;
 
-    private List<Note> noteList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding = ActivityDodayBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         init();
     }
 
     private void init() {
-        setTitle("DoDay - ToDo List");
-
-        noteList = new ArrayList<>();
+        setTitle(getString(R.string.app_name));
 
         noteViewModel = new ViewModelProvider(this, (ViewModelProvider.Factory) ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication()))
                 .get(NoteViewModel.class);
@@ -59,7 +54,7 @@ public class MainActivity extends BaseActivity implements OnNoteClickListener {
 
         binding.fabAdd.setOnClickListener(v -> {
             Intent newDataIntent = new Intent(this, NoteEntryActivity.class);
-            startActivityForResult(newDataIntent, 1);
+            startActivityForResult(newDataIntent, REQUEST_CODE_NOTE_ENTRY);
         });
 
         addAdapters();
@@ -99,10 +94,9 @@ public class MainActivity extends BaseActivity implements OnNoteClickListener {
             categoryAdapter.updateCategoryList(categories);
         });
 
-        noteViewModel.getNotesByCategory().observe(MainActivity.this, notes -> {
+        noteViewModel.getNotesByCategory().observe(DoDayActivity.this, notes -> {
             Log.d("NOTES", "sortedNoteList observed");
             notesAdapter.updateNotesList(notes);
-            noteList = notes;
         });
     }
 
@@ -118,7 +112,7 @@ public class MainActivity extends BaseActivity implements OnNoteClickListener {
                 Category category = categoryAdapter.getCategory(viewHolder.getAdapterPosition());
                 if (category.getId() > 0) {
                     noteViewModel.delete(category);
-                    Toast.makeText(MainActivity.this, category.getTitle() + " Deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DoDayActivity.this, category.getTitle() + " Deleted", Toast.LENGTH_SHORT).show();
                 }
             }
         }).attachToRecyclerView(binding.rvCategory);
@@ -200,7 +194,7 @@ public class MainActivity extends BaseActivity implements OnNoteClickListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_CODE_NOTE_ENTRY && resultCode == RESULT_OK) {
             String title = data.getStringExtra("title");
             int category_id = data.getIntExtra("category_id", -1);
 

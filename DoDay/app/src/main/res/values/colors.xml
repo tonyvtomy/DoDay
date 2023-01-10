@@ -3,12 +3,15 @@
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#FFFFFF</color>
     <color name="colorAccent">#DD2279FB</color>
+    <color name="colorTint">#FD73A4</color>
 
     <color name="textColor">#18224B</color>
     <color name="subTextColor">#A1A7C4</color>
+    <color name="viewColor">#CFCFCF</color>
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="colorYellow">#DFE8F16C</color>
     <color name="colorLightWhite">#F5F5F5</color>
+    <color name="colorGrey">#2d2d2d</color>
 </resources>

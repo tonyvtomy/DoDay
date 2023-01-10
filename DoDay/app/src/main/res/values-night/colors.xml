@@ -11,4 +11,6 @@
     <color name="white">#616161</color>
     <color name="colorYellow">#DFE8F16C</color>
     <color name="colorLightWhite">#616161</color>
+    <color name="colorGrey">#2d2d2d</color>
+
 </resources>
