@@ -25,5 +25,17 @@ fun getDateFromTimestamp(timestamp: String?): String {
     return DateFormat.format(DATE_FORMAT, calendar).toString()
 }
 
+const val DATE_TIME_FORMAT: String = "dd/MM/yyyy hh:mm:ss a"
+fun getDateTimeFromTimestamp(timestamp: String?): String {
+    val ts = timestamp?.toLong()
+    if (ts == null || ts <= 0) return ""
+    //Get instance of calendar
+    val calendar = Calendar.getInstance(Locale.getDefault())
+    //get current date from ts
+    calendar.timeInMillis = ts
+    //return formatted date
+    return DateFormat.format(DATE_TIME_FORMAT, calendar).toString()
+}
+
 fun isDateSameDay(oldTimestamp: String, newTimestamp: String) =
     (getDateFromTimestamp(oldTimestamp) == getDateFromTimestamp(newTimestamp))

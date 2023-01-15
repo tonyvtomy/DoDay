@@ -33,7 +33,7 @@ public interface FoodExpenseDao {
     @Query("SELECT * FROM my_food_expense WHERE status=0 ORDER BY timestamp DESC")
     LiveData<List<FoodExpense>> getAllFoodExpense();
 
-    @Query("UPDATE my_food_expense SET status=:newStatus WHERE status=:status")
-    void updateStatus(int status, int newStatus);
+    @Query("UPDATE my_food_expense SET status=:newStatus WHERE status=:status AND timestamp<=:timestamp")
+    void updateStatus(int status, int newStatus, String timestamp);
 
 }

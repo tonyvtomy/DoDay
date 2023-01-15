@@ -23,7 +23,7 @@ class TransactionRepo(application: Application?) {
     fun insertData(transaction: Transaction?) {
         DoDayDatabase.databaseWriteExecutor.execute {
             val primaryKey = transactionDao.insert(transaction)
-            foodExpenseDao.updateStatus(0, primaryKey.toInt())
+            foodExpenseDao.updateStatus(0, primaryKey.toInt(), transaction?.timestamp)
         }
     }
 
@@ -34,7 +34,13 @@ class TransactionRepo(application: Application?) {
     fun deleteData(transaction: Transaction?) {
         DoDayDatabase.databaseWriteExecutor.execute { transactionDao.delete(transaction) }
         transaction?.id?.let {
-            DoDayDatabase.databaseWriteExecutor.execute { foodExpenseDao.updateStatus(it, 0) }
+            DoDayDatabase.databaseWriteExecutor.execute {
+                foodExpenseDao.updateStatus(
+                    it,
+                    0,
+                    transaction.timestamp
+                )
+            }
         }
     }
 

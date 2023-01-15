@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 3,
-      "versionName": "0.0.3",
-      "outputFile": "DoDay v0.0.3.apk"
+      "versionCode": 5,
+      "versionName": "1.0.5",
+      "outputFile": "DoDay v1.0.5.apk"
     }
   ],
   "elementType": "File"

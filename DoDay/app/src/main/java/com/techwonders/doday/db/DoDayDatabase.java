@@ -16,7 +16,7 @@ import com.techwonders.doday.model.Transaction;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Note.class, Category.class, FoodExpense.class, Transaction.class}, version = 2)
+@Database(entities = {Note.class, Category.class, FoodExpense.class, Transaction.class}, version = 3)
 public abstract class DoDayDatabase extends RoomDatabase {
 
     private static DoDayDatabase instance;

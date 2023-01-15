@@ -1,6 +1,8 @@
 package com.techwonders.doday.view.activity
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -20,9 +22,12 @@ import com.techwonders.doday.R
 import com.techwonders.doday.databinding.ActivityFoodExpenseBinding
 import com.techwonders.doday.model.FoodExpense
 import com.techwonders.doday.model.Transaction
+import com.techwonders.doday.utility.getDateTimeFromTimestamp
 import com.techwonders.doday.view.adapter.FoodExpenseAdapter
 import com.techwonders.doday.viewModel.FoodExpenseViewModel
 import com.techwonders.doday.viewModel.TransactionViewModel
+import java.util.*
+import java.util.Calendar.PM
 
 class FoodExpenseActivity : BaseActivity() {
 
@@ -30,6 +35,20 @@ class FoodExpenseActivity : BaseActivity() {
     lateinit var foodExpenseViewModel: FoodExpenseViewModel
     lateinit var transactionViewModel: TransactionViewModel
     private var foodExpenseAdapter: FoodExpenseAdapter? = null
+    var cal: Calendar = Calendar.getInstance()
+
+    @SuppressLint("SetTextI18n")
+    private val dateSetListener =
+        DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+            cal.set(Calendar.YEAR, year)
+            cal.set(Calendar.MONTH, monthOfYear)
+            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            cal.set(Calendar.HOUR_OF_DAY, 11)
+            cal.set(Calendar.MINUTE, 59)
+            cal.set(Calendar.SECOND, 59)
+            cal.set(Calendar.AM_PM, PM)
+            addTransaction()
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +68,17 @@ class FoodExpenseActivity : BaseActivity() {
         binding.tvErrorMsg.visibility = VISIBLE
         binding.rvFoodExpense.visibility = GONE
         binding.bottomBarTotal.visibility = GONE
+    }
+
+    private fun showDateDialog() {
+        DatePickerDialog(
+            this@FoodExpenseActivity,
+            dateSetListener,
+            // set DatePickerDialog to point to today's date when it loads up
+            cal.get(Calendar.YEAR),
+            cal.get(Calendar.MONTH),
+            cal.get(Calendar.DAY_OF_MONTH)
+        ).show()
     }
 
     private fun addAdapters() {
@@ -159,7 +189,8 @@ class FoodExpenseActivity : BaseActivity() {
                 newDeliveryEntryLauncher.launch(Intent(this, FoodExpenseEntryActivity::class.java))
             }
             R.id.addToTransaction -> {
-                addTransaction()
+                if (foodExpenseAdapter?.getAllFoodExpense()?.isNotEmpty() == true)
+                    showDateDialog()
             }
             R.id.transactions -> {
                 startActivity(Intent(this, TransactionActivity::class.java))
@@ -169,15 +200,15 @@ class FoodExpenseActivity : BaseActivity() {
     }
 
     private fun addTransaction() {
-        if (foodExpenseAdapter?.getAllFoodExpense()!!.isNotEmpty()) {
-            val totalExpense = getTotalExpense(foodExpenseAdapter?.getAllFoodExpense()!!)
+        val totalExpense = getTotalExpense(foodExpenseAdapter?.getAllFoodExpense()!!)
 
-            val transaction = Transaction()
-            transaction.total = totalExpense
-            transaction.timestamp = System.currentTimeMillis().toString()
-            transactionViewModel.insert(transaction)
+        Log.d("FOOD_EXPENSE", "Date: ${getDateTimeFromTimestamp(cal.timeInMillis.toString())}")
 
-            Toast.makeText(this, "Added to Transactions", Toast.LENGTH_SHORT).show()
-        }
+        val transaction = Transaction()
+        transaction.total = totalExpense
+        transaction.timestamp = cal.timeInMillis.toString()
+        transactionViewModel.insert(transaction)
+
+        Toast.makeText(this, "Added to Transactions", Toast.LENGTH_SHORT).show()
     }
 }

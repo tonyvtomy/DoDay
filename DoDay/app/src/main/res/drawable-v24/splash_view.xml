@@ -5,7 +5,7 @@
     <item
         android:width="60dp"
         android:height="60dp"
-        android:drawable="@drawable/doday_logo"
+        android:drawable="@drawable/logo"
         android:gravity="center" />
 
 </layer-list>
