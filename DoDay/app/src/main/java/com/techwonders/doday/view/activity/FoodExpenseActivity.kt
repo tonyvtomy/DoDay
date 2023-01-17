@@ -12,6 +12,7 @@ import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -68,6 +69,13 @@ class FoodExpenseActivity : BaseActivity() {
         binding.tvErrorMsg.visibility = VISIBLE
         binding.rvFoodExpense.visibility = GONE
         binding.bottomBarTotal.visibility = GONE
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                startActivity(Intent(this@FoodExpenseActivity, DashboardActivity::class.java))
+                finishAffinity()
+            }
+        })
     }
 
     private fun showDateDialog() {
@@ -211,4 +219,5 @@ class FoodExpenseActivity : BaseActivity() {
 
         Toast.makeText(this, "Added to Transactions", Toast.LENGTH_SHORT).show()
     }
+
 }

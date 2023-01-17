@@ -213,4 +213,10 @@ public class DoDayActivity extends BaseActivity implements OnNoteClickListener {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, DashboardActivity.class));
+        finishAffinity();
+        super.onBackPressed();
+    }
 }

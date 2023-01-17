@@ -2,8 +2,6 @@ package com.techwonders.doday.view.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
-import com.techwonders.doday.R
 import com.techwonders.doday.databinding.ActivityDashboardBinding
 
 class DashboardActivity : BaseActivity() {
@@ -32,10 +30,6 @@ class DashboardActivity : BaseActivity() {
 
         binding.cvSettings.setOnClickListener {
             startActivity(Intent(this@DashboardActivity, SettingsActivity::class.java))
-        }
-
-        binding.cvComingSoon.setOnClickListener {
-            Toast.makeText(this, getString(R.string.coming_soon), Toast.LENGTH_SHORT).show()
         }
 
     }
